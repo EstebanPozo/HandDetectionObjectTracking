@@ -25,7 +25,6 @@ tracker.init(img,bbox)
 
 def drawBox(img,bbox): # Rectangular region of interest ROI
     x,y,w,h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
-    #x, y, w, h = 50,200,100,100
     cv2.rectangle(img,(x,y),((x+w),(y+h)), (255,0,255), 3,1)
     cv2.putText(img, "", (75, 75), cv2.FONT_HERSHEY_PLAIN, 0.7, (255, 0, 0), 2)
 
@@ -33,22 +32,16 @@ def drawBox(img,bbox): # Rectangular region of interest ROI
 #
 while True:
     a=0
-    success, img = cap.read()  # this will enable the frame
+    success, img = cap.read()  # definition will enable the frame
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
     if len(lmList) != 0:
-        # print(lmList[8], lmList[12])
-        #x, y, w, h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
-        #x1, y1 = lmList[12][1], lmList[12][2]
+        
         x2, y2 = lmList[8][1], lmList[8][2]
-        # cx,cy = (x1+x2)//2,(y1+y2)//2
-        #cv2.circle(img, (0, 0), 10, (0, 0, 0), cv2.FILLED)
+        
         cv2.circle(img, (x2, y2), 10, (0, 0, 0), cv2.FILLED)
         cv2.line(img, (0, 0), (x2, y2), (255, 0, 0), 3)
-        #cv2.line(img, (xb, yb), (x2, y2), (255, 0, 0), 3)
-        #cv2.line(img, ((x+w),(y+h)), (x2, y2), (255, 0, 0), 3)
-
-        #length = math.hypot(x2 , y2 )
+        
         length = ((bbox[0] - x2)**2+(bbox[1] - y2)**2)**0.5
         print(length)
         if length <= 300:
@@ -96,17 +89,7 @@ while True:
     #cv2.waitKey(1)
 
     PLC= ModbusClient(host="194.94.86.6", port=502, auto_open=True)
-    #modbus_client = easymodbus.modbusClient.ModbusClient("127.0.0.1", 8100)
-    #modbus_client.connect()
-
-    #register_values = modbus_client.read_holdingregisters(0, 3)
-    ###
-    #cv2.imshow("Image", img)
-
-    #print("Val" + str(register_values[0]))
-    #print("Val1" + str(register_values[1]))
-    #print("Val2" + str(register_values[2]))
-
+    
     Dis1=a
     Dis2=0
     # Holding Register 1
@@ -116,14 +99,7 @@ while True:
     # Holding Register 2
     holding_register_value_2 = Dis2
     print(Dis2)
-    #modbus_client.write_single_register(0, holding_registers_value)
-    #modbus_client.write_single_register(1, holding_registers_value1)
-    #modbus_client.write_single_register(2, holding_registers_value2)
-
-    #print("Val" + str(register_values[0]))
-    #print("Val1" + str(register_values[1]))
-    #print("Val2" + str(register_values[2]))
-    #modbus_client.close()
+    
     PLC.write_single_register(0, (holding_register_value_1))
     PLC.write_single_register(1, (holding_register_value_2))
 

@@ -2,9 +2,10 @@ import cv2
 import mediapipe as mp
 import time
 
-
+#This class is created to detect hands in the field of view
 class handDetector():
     def __init__(self, mode=False, maxHands=2, detectionCon=0.5, trackCon=0.5):
+        'attributes are listed here'
         self.mode = mode
         self.maxHands = maxHands
         self. detectionCon = detectionCon
@@ -15,6 +16,7 @@ class handDetector():
                                         self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
 
+    #class method for finding hands is mentioned here
     def findHands(self, img, draw = True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(imgRGB)
@@ -26,7 +28,7 @@ class handDetector():
                     self. mpDraw.draw_landmarks(img, handLms,
                                                 self.mpHands.HAND_CONNECTIONS)
         return img
-
+    #class method for finding positions mentioned here
     def findPosition(self, img, handNo=0, draw=True):
 
         lmList = []
@@ -40,7 +42,7 @@ class handDetector():
                 lmList.append([id, cx, cy])
                 if draw:
                     cv2.circle(img, (cx,cy),1, (255,0,0), cv2.FILLED)
-
+        # returns list as result
         return lmList
 
 
@@ -55,14 +57,14 @@ def main():
         lmList = detector. findPosition(img)
         if len(lmList) != 0:
             print(lmList[4])
-
+        #frame rate definition
         cTime = time.time()
         fps = 1/(cTime-pTime)
         pTime = cTime
 
         cv2.putText(img, str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3,
                     (255,0,0), 3)
-
+        #shows image
         cv2.imshow("Image", img)
         cv2.waitKey(1)
 
