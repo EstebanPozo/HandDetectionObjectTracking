@@ -51,7 +51,7 @@ while True:
         #length = math.hypot(x2 , y2 )
         length = ((bbox[0] - x2)**2+(bbox[1] - y2)**2)**0.5
         print(length)
-        if length <= 400:
+        if length <= 300:
             print('stop')
             cv2.putText(img, f'Signal: {int(1)}', (40, 50), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0),
                         2)

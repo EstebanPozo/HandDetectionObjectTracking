@@ -13,7 +13,7 @@ wCam, hcam = 640, 480  # adjusts the size of the frame
 ####################################
 
 # Basic setup for running a webcam
-cap = cv2.VideoCapture(1)  # 0  for webcam
+cap = cv2.VideoCapture(0)  # 0  for webcam
 cap.set(3, wCam)  # prompt ID at 3 is wCam
 cap.set(4, hcam)
 pTime = 0
@@ -24,7 +24,6 @@ a=0
 while True:
 
     success, img = cap.read()  # this will enable the frame
-
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
     if len(lmList) != 0:
@@ -63,8 +62,8 @@ while True:
         #        2)  # Syntax: cv2.putText(image, text, org, font, fontScale, color[, thickness[, lineType[, bottomLeftOrigin]]]) - https://www.geeksforgeeks.org/python-opencv-cv2-puttext-method/
     ##
     #modbus_client = easymodbus.modbusClient.ModbusClient("194.94.28.231", 502)
-    #modbus_client = easymodbus.modbusClient.ModbusClient("194.94.86.6", 502)
-    modbus_client = easymodbus.modbusClient.ModbusClient("127.0.0.1", 8100)
+    modbus_client = easymodbus.modbusClient.ModbusClient("194.94.86.6", 502)
+    #modbus_client = easymodbus.modbusClient.ModbusClient("127.0.0.1", 8100)
     modbus_client.connect()
 
     register_values = modbus_client.read_holdingregisters(0, 3)
